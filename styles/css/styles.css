@@ -1,0 +1,91 @@
+/* --- Global Reset & Fonts --- */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafb;
+  color: #222;
+}
+
+/* --- Navbar --- */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #0d6efd !important;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #084298;
+  border-color: #084298;
+}
+
+/* --- Card Styles --- */
+.card {
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Table Styling --- */
+.table th {
+  background-color: #f1f3f4;
+}
+
+.table td, .table th {
+  vertical-align: middle !important;
+}
+
+/* --- Forms --- */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form .form-control, form select {
+  border-radius: 8px;
+  border-color: #ccc;
+}
+
+form button {
+  width: 100%;
+}
+
+/* --- Footer --- */
+footer {
+  background: #111;
+  color: #eee;
+}
+
+/* --- Alerts --- */
+.alert {
+  border-radius: 8px;
+}
+
+/* --- Responsive Hero Section --- */
+.hero {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: white;
+  padding: 80px 20px;
+  border-radius: 12px;
+  text-align: center;
+}

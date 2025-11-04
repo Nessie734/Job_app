@@ -1,0 +1,24 @@
+{% extends 'jobs/base.html' %}
+{% block title %}Jobs | Job Application System{% endblock %}
+{% block content %}
+<h2 class="mb-4">Available Jobs</h2>
+{% if user.role == 'employer' %}
+    <a href="{% url 'jobs:create_job' %}" class="btn btn-primary mb-3">Post a New Job</a>
+{% endif %}
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ job.title }}</h5>
+                <p class="text-muted">{{ job.location }} | {{ job.job_type|title }}</p>
+                <p>{{ job.description|truncatechars:120 }}</p>
+                <a href="{% url 'jobs:job_detail' job.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No job postings available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

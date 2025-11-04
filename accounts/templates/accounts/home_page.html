@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>JobApp - Find Your Dream Job</title>
+
+  <!-- Tailwind (already in your original file) -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  </style>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#00529B",
+            "accent": "#FFA500",
+            "background-light": "#FFFFFF",
+            "background-dark": "#1f2937",
+            "section-light": "#F0F2F5",
+            "section-dark": "#374151",
+            "text-light": "#1f2937",
+            "text-dark": "#f3f4f6",
+            "text-muted-light": "#6c757d",
+            "text-muted-dark": "#9ca3af",
+          },
+          fontFamily: { display: ["Lato", "sans-serif"], body: ["Roboto", "sans-serif"] },
+          borderRadius: { "DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-text-light dark:text-text-dark">
+  <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      <div class="flex flex-1 justify-center">
+        <div class="layout-content-container flex flex-col w-full">
+
+          <!-- TopNavBar -->
+          <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-700 px-6 sm:px-10 lg:px-20 py-4">
+            <div class="flex items-center gap-4 text-primary">
+              <a href="{% url 'home' %}" class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-3xl">work</span>
+                <h2 class="text-2xl font-bold font-display tracking-tight">JobApp</h2>
+              </a>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-9">
+              <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="{% url 'jobs:job_list' %}">Find Jobs</a>
+              <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="{% url 'accounts:about' %}">About Us</a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+              {% if user.is_authenticated %}
+                {% if user.is_staff or user.role == 'admin' %}
+                  <a href="/admin/" class="flex items-center justify-center rounded-lg h-10 px-4 bg-yellow-500 text-black text-sm font-bold">Admin</a>
+                {% endif %}
+
+                <a href="#" class="text-sm font-medium px-3">{{ user.username }}</a>
+                <a href="{% url 'accounts:logout' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-gray-200 text-text-light dark:bg-gray-700 dark:text-text-dark text-sm font-bold">Logout</a>
+              {% else %}
+                <a href="{% url 'accounts:register' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold">Register</a>
+                <a href="{% url 'accounts:login' %}" class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-gray-200 text-text-light dark:bg-gray-700 dark:text-text-dark text-sm font-bold">Login</a>
+              {% endif %}
+            </div>
+          </header>
+
+          <!-- HeroSection -->
+          <div class="@container">
+            <div class="p-4 sm:p-6 lg:p-8">
+              <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-4 text-center" style='background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnuV9U0DyfiMhDXIajZ-Qr7u7gJmQyPOTzNvzewrjWJeGHfre5oj3WWcVPXrLicpYgGgm2WLMkCLe43hqWtu-GquMMXQt3YmlxW22X9bq00FB4L0atVe2yQkDyEkmL7HX4uoA-8x4IIScg1yrmAwXWNbtJ4qgKjTVptUSgzO30iGyAqyqDlGtC-XRwzxb2-6EsiL4XpYF_hslg--mj3m8mc-agJZdNvT9h3kHazwc72QQVPIPOwoqOaYcJu4r7wiQPU5grUYX-6fQ");'>
+                <div class="flex flex-col gap-2">
+                  <h1 class="text-white text-4xl font-bold leading-tight tracking-tight font-display sm:text-5xl">Find Your Dream Job Today</h1>
+                  <p class="text-white text-base font-normal leading-normal sm:text-lg">Discover thousands of opportunities and take the next step in your career.</p>
+                </div>
+
+                <!-- Search form: GET to same view (q param) -->
+                <form method="get" action="{% url 'home' %}" class="flex flex-col sm:flex-row w-full max-w-2xl gap-2 mt-3">
+                  <label class="flex flex-col flex-1 h-14 w-full">
+                    <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                      <span class="material-symbols-outlined text-text-muted-light flex items-center justify-center pl-4 pr-2 bg-background-light rounded-l-lg border-y border-l border-gray-300">search</span>
+                      <input name="q" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-none text-text-light focus:outline-0 focus:ring-0 border-y border-gray-300 bg-background-light h-full placeholder:text-text-muted-light text-base font-normal leading-normal" placeholder="Job title, keywords, or company" value="{{ q|default:'' }}"/>
+                    </div>
+                  </label>
+                  <button type="submit" class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-lg h-14 px-5 bg-accent text-white text-base font-bold">Search Jobs</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured Jobs Section -->
+          <div class="bg-section-light dark:bg-section-dark py-12 lg:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 class="text-3xl font-bold leading-tight tracking-tight text-center mb-10 font-display">Featured Jobs</h2>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for job in featured_jobs %}
+                <div class="flex flex-col gap-4 p-6 bg-background-light dark:bg-background-dark rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div>
+                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark font-display">{{ job.title }}</h3>
+                    <p class="text-sm text-text-muted-light dark:text-text-muted-dark">
+                      {{ job.employer.username }}{% if job.location %} - {{ job.location }}{% endif %}
+                    </p>
+                  </div>
+                  <p class="text-sm text-text-light dark:text-text-dark flex-grow">{{ job.description|truncatechars:120 }}</p>
+                  <div class="flex items-center justify-between">
+                    <a class="text-sm font-bold text-primary hover:underline" href="{% url 'jobs:job_detail' job.id %}">View Details</a>
+
+                    {% if user.is_authenticated and user.role == 'applicant' %}
+                      <a class="text-sm font-semibold bg-primary text-white px-3 py-1 rounded" href="{% url 'applications:apply_for_job' job.id %}">Apply</a>
+                    {% elif user.is_authenticated and user.role == 'employer' and user == job.employer %}
+                      <a class="text-sm text-gray-600 hover:underline" href="{% url 'jobs:edit_job' job.id %}">Edit</a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% empty %}
+                <p class="text-center col-span-4 text-text-muted-light">No featured jobs found.</p>
+                {% endfor %}
+              </div>
+
+              <div class="flex px-4 py-8 justify-center">
+                <a href="{% url 'jobs:job_list' %}" class="flex min-w-[84px] items-center justify-center rounded-lg h-12 px-5 bg-primary text-white font-bold">View More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <footer class="bg-gray-800 text-gray-300">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                  <h3 class="text-lg font-bold text-white font-display">JobApp</h3>
+                  <p class="mt-2 text-sm text-gray-400">Your next career move, simplified.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-200 tracking-wider uppercase">Quick Links</h4>
+                    <ul class="mt-4 space-y-2">
+                      <li><a class="text-sm hover:text-white" href="{% url 'jobs:job_list' %}">Find Jobs</a></li>
+                      <li><a class="text-sm hover:text-white" href="{% url 'accounts:about' %}">About Us</a></li>
+                      
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-200 tracking-wider uppercase">Legal</h4>
+                    <ul class="mt-4 space-y-2">
+                      <li><a class="text-sm hover:text-white" href="#">Terms of Service</a></li>
+                      <li><a class="text-sm hover:text-white" href="#">Privacy Policy</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-200 tracking-wider uppercase">Follow Us</h4>
+                  <div class="mt-4 flex space-x-4">
+                    <a class="text-gray-400 hover:text-white" href="#"><!-- fb svg --></a>
+                    <a class="text-gray-400 hover:text-white" href="#"><!-- twitter svg --></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 border-t border-gray-700 pt-4 text-center text-sm text-gray-400">
+                <p>© {{ now|date:"Y" }} JobApp. All rights reserved.</p>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

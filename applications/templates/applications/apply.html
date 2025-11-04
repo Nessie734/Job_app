@@ -1,0 +1,32 @@
+{% extends 'applications/base.html' %}
+{% block title %}Apply for {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg w-full max-w-2xl p-8 mt-6 mb-6">
+    
+    <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-4">
+      Apply for: <span class="text-blue-600">{{ job.title }}</span>
+    </h2>
+    
+    <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
+      <strong>Employer:</strong> {{ job.employer.username }}
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-5">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {{ form.as_p }}
+
+      <button
+        type="submit"
+        {% comment %} class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300" {% endcomment %}
+      >
+        Submit Application
+      </button>
+    </form>
+    <br>
+  </div>
+</div>
+{% endblock %}
