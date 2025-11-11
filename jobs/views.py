@@ -76,7 +76,7 @@ def update_application_status(request,application_id):
             app.save()
 
             messages.success(request, f"Notification sent to {app.applicant_name}")
-            return redirect('job_detail')  # Replace with your employer's application list view
+            return redirect('job_details')  # Replace with your employer's application list view
     else:
         form = ApplicationStatusForm(instance=application)
 
