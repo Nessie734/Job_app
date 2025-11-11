@@ -13,5 +13,7 @@
 {% elif user == job.employer %}
 <a href="{% url 'jobs:edit_job' job.id %}" class="btn btn-warning">Edit Job</a>
 <a href="{% url 'jobs:delete_job' job.id %}" class="btn btn-danger">Delete</a>
+
 {% endif %}
+
 {% endblock %}

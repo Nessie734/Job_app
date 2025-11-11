@@ -63,3 +63,4 @@ def update_status(request, application_id):
             app.save()
             messages.success(request, f"Application status updated to '{new_status}'.")
     return redirect('applications:employer_applications')
+

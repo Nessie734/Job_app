@@ -51,3 +51,33 @@ def delete_job(request, job_id):
     job.delete()
     messages.success(request, "Job deleted successfully.")
     return redirect('jobs:job_list')
+
+#adding the notification module
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+from .forms import ApplicationStatusForm
+from .models import Application
+
+def update_application_status(request,application_id):
+    application = get_object_or_404(Application, pk=application_id)
+    
+    if request.method == 'POST':
+        form = ApplicationStatusForm(request.POST, instance=application)
+        if form.is_valid():
+            app = form.save()
+
+            # Send notification email
+            subject = f"Application Update for {app.job.title}"
+            message = f"Hello {app.applicant_name},\n\nYour application status is now: {app.get_status_display()}."
+            send_mail(subject, message, 'agggiego20@gmail.com', [app.email])
+            
+            app.notification_sent = True
+            app.save()
+
+            messages.success(request, f"Notification sent to {app.applicant_name}")
+            return redirect('job_detail')  # Replace with your employer's application list view
+    else:
+        form = ApplicationStatusForm(instance=application)
+
+    return render(request, 'jobs/update_status.html', {'form': form, 'application': application})

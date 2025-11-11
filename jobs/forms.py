@@ -1,5 +1,5 @@
 from django import forms
-from .models import Job
+from .models import Job, Application
 
 class JobForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,10 @@ class JobForm(forms.ModelForm):
             field.widget.attrs.update({
                 'class': 'w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none dark:bg-gray-700 dark:text-white',
             })
+            
+
+#adding the notification module
+class ApplicationStatusForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['status']

@@ -15,3 +15,5 @@ class ApplicationForm(forms.ModelForm):
             field.widget.attrs.update({
                 'class': 'w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none dark:bg-gray-700 dark:text-white',
             })
+
+

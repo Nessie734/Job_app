@@ -26,3 +26,23 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.employer.username})"
+
+#adding the notification module
+class Application(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('shortlisted', 'Shortlisted'),
+        ('hired', 'Hired'),
+        ('rejected', 'Rejected'),
+    ]
+
+    applicant_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    resume = models.FileField(upload_to='resumes/')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    applied_on = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    notification_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.applicant_name} - {self.job.title}"

@@ -80,6 +80,7 @@
       No applications received yet.
     </p>
     {% endif %}
+     <a href="{% url 'update_application_status' application.id %}">Update Status</a>
   </div>
 </div>
 {% endblock %}
